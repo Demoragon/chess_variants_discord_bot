@@ -1,0 +1,26 @@
+[
+	{ 
+		"name": "king",
+		"name_ru": "король"
+	},
+	{
+		"name": "queen",
+		"name_ru": "ферзь"
+	},
+	{
+		"name": "rook",
+		"name_ru": "ладья"
+	},
+	{
+		"name": "knight",
+		"name_ru": "конь"
+	},
+	{
+		"name": "bishop",
+		"name_ru": "слон"
+	},
+	{
+		"name": "pawn",
+		"name_ru": "пешка"
+	}
+]
