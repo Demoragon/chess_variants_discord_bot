@@ -20,4 +20,24 @@ class Game:
         for piece in new_game['pieces'].keys():
             new_game['pieces'][piece] = Piece.all_pieces[new_game['pieces'][piece]]
         return json_game
+    
+    def __init__(self, name):
+        game = Game.all_games[name]
+        self.name = game['name']
+        self.name_ru = game.get('name_ru')
+        if self.name_ru == None:
+            self.name_ru = self.name
+        self.board_width = game['board_width']
+        self.board_length = game['board_length']
+        self.board = [[None for y in range(self.board_length)] for x in range(self.board_width)]
+        board = game['board'].split('/')
+        for y in range(self.board_length):
+            for x in range(self.board_width):
+                if board[y][x] != '.':
+                    piece = game['pieces'][board[y][x].lower()]
+                    self.board[x][y] = {'piece': piece}
+                    if board[y][x].isupper():
+                        self.board[x][y]['isWhite'] = True
+                    else:
+                        self.board[x][y]['isWhite'] = False
         
