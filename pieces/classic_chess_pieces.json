@@ -1,26 +1,36 @@
 [
 	{ 
 		"name": "king",
-		"name_ru": "король"
+		"name_ru": "король",
+		"symbol": "k"
+
+
 	},
 	{
 		"name": "queen",
-		"name_ru": "ферзь"
+		"name_ru": "ферзь",
+		"symbol": "q"
+
 	},
 	{
 		"name": "rook",
-		"name_ru": "ладья"
+		"name_ru": "ладья",
+		"symbol": "r"
 	},
 	{
 		"name": "knight",
-		"name_ru": "конь"
+		"name_ru": "конь",
+		"symbol": "n"
 	},
 	{
 		"name": "bishop",
-		"name_ru": "слон"
+		"name_ru": "слон",
+		"symbol": "b"
 	},
 	{
 		"name": "pawn",
-		"name_ru": "пешка"
+		"name_ru": "пешка",
+		"symbol": "p"
+
 	}
 ]
