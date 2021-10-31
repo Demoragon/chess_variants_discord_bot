@@ -5,7 +5,7 @@ from piece import *
 
 class Game:
     all_games = dict()
-    
+
     @staticmethod
     def Load_all_games():
         for file_name in os.listdir('games/'):
@@ -40,4 +40,16 @@ class Game:
                         self.board[x][y]['isWhite'] = True
                     else:
                         self.board[x][y]['isWhite'] = False
-        
+
+    def BoardTextOutput(self):
+        Board = ''
+        for y in range(self.board_width):
+            for x in range(self.board_length):
+                if self.board[x][y] == None:
+                    Board += '.'
+                elif self.board[x][y]['isWhite'] == False:
+                    Board += self.board[x][y]['piece']['symbol']
+                else:
+                    Board += self.board[x][y]['piece']['symbol'].upper()
+            Board += '\n'
+        return Board
