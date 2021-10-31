@@ -41,45 +41,15 @@ class Game:
                     else:
                         self.board[x][y]['isWhite'] = False
 
-
-
-    def newBoard(self):
-       Board = ''
-       for y in range(self.board_width):
-           for x in range(self.board_length):
-             if self.board[x][y] != None and self.board[x][y]['isWhite'] == False:
-                  Board += self.board[x][y]['piece']['symbol']
-
-             elif self.board[x][y] != None and self.board[x][y]['isWhite'] == True:
-                  str = self.board[x][y]['piece']['symbol']
-                  str = str.upper()
-                  Board += str
-             else:
-                 Board += '.'
-
-           Board += '\n'
-
-       return Board
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
+    def BoardTextOutput(self):
+        Board = ''
+        for y in range(self.board_width):
+            for x in range(self.board_length):
+                if self.board[x][y] == None:
+                    Board += '.'
+                elif self.board[x][y]['isWhite'] == False:
+                    Board += self.board[x][y]['piece']['symbol']
+                else:
+                    Board += self.board[x][y]['piece']['symbol'].upper()
+            Board += '\n'
+        return Board
