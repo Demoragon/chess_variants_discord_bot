@@ -2,15 +2,22 @@
 	{ 
 		"name": "king",
 		"name_ru": "король",
-		"symbol": "k"
-
-
+		"symbol": "k",
+		"quite_moves": 
+		[
+			"N", "S", "W", "E", 
+			"NW", "NE", "SW", "SE"
+		],
+		"capture_moves":
+		[
+			"N", "S", "W", "E", 
+			"NW", "NE", "SW", "SE"
+		]
 	},
 	{
 		"name": "queen",
 		"name_ru": "ферзь",
 		"symbol": "q"
-
 	},
 	{
 		"name": "rook",
@@ -20,7 +27,17 @@
 	{
 		"name": "knight",
 		"name_ru": "конь",
-		"symbol": "n"
+		"symbol": "n",
+		"quite_moves": 
+		[
+			"NNW", "NNE", "SSW", "SSE",
+			"WWN", "WWS", "EEN", "EES"
+		],
+		"capture_moves":
+		[
+			"NNW", "NNE", "SSW", "SSE",
+			"WWN", "WWS", "EEN", "EES"
+		]
 	},
 	{
 		"name": "bishop",
@@ -30,7 +47,8 @@
 	{
 		"name": "pawn",
 		"name_ru": "пешка",
-		"symbol": "p"
-
+		"symbol": "p",
+		"quite_moves": [ "N" ],
+		"capture_moves": [ "NW", "NE" ]
 	}
 ]

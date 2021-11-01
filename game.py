@@ -1,5 +1,6 @@
 import json
 import os
+import numpy as np
 
 from piece import *
 
@@ -40,6 +41,40 @@ class Game:
                         self.board[x][y]['isWhite'] = True
                     else:
                         self.board[x][y]['isWhite'] = False
+                        
+    def GetPieceMoves(self, x, y):
+        legal_moves = []
+        piece = self.board[x][y]
+        if piece == None:
+            return legal_moves
+        coor = np.array([x, y])
+        directions = {"N": np.array([0, -1]),
+                      "S": np.array([0, 1]),
+                      "W": np.array([-1, 0]),
+                      "E": np.array([1, 0]) }
+        if not piece['isWhite']:
+            for d in directions.keys():
+                directions[d] = -1*directions[d]
+        # quite moves
+        for move in piece['piece']['quite_moves']:
+            new_coor = coor.copy()
+            for d in move:
+                new_coor += directions[d]
+            if (0 <= new_coor[0] < self.board_width and
+                0 <= new_coor[1] < self.board_length and
+                self.board[new_coor[0]][new_coor[1]] is None):
+                legal_moves.append(new_coor)
+        # moves with capture
+        for move in piece['piece']['quite_moves']:
+            new_coor = coor.copy()
+            for d in move:
+                new_coor += directions[d]
+            if (0 <= new_coor[0] < self.board_width and
+                0 <= new_coor[1] < self.board_length and
+                self.board[new_coor[0]][new_coor[1]] is not None and 
+                self.board[new_coor[0]][new_coor[1]]['isWhite'] != piece['isWhite']):
+                legal_moves.append(new_coor)
+        return legal_moves
 
     def BoardTextOutput(self):
         Board = ''
