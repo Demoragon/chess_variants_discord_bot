@@ -41,7 +41,8 @@ class Game:
                         self.board[x][y]['isWhite'] = True
                     else:
                         self.board[x][y]['isWhite'] = False
-                        
+        self.pieces = game['pieces']  
+        
     def GetPieceMoves(self, x, y):
         legal_moves = []
         piece = self.board[x][y]
@@ -56,7 +57,7 @@ class Game:
             for d in directions.keys():
                 directions[d] = -1*directions[d]
         # quite moves
-        for move in piece['piece']['quite_moves']:
+        for move in piece['piece'].get('quite_moves', []):
             new_coor = coor.copy()
             for d in move:
                 new_coor += directions[d]
@@ -65,7 +66,7 @@ class Game:
                 self.board[new_coor[0]][new_coor[1]] is None):
                 legal_moves.append(new_coor)
         # moves with capture
-        for move in piece['piece']['quite_moves']:
+        for move in piece['piece'].get('capture_moves', []):
             new_coor = coor.copy()
             for d in move:
                 new_coor += directions[d]
@@ -74,8 +75,39 @@ class Game:
                 self.board[new_coor[0]][new_coor[1]] is not None and 
                 self.board[new_coor[0]][new_coor[1]]['isWhite'] != piece['isWhite']):
                 legal_moves.append(new_coor)
+        # slide quite moves
+        for move in piece['piece'].get('slide_quite_moves', []):
+            new_coor = coor.copy()
+            shift = [0, 0]
+            for d in move:
+                shift += directions[d]
+            new_coor += shift
+            while (0 <= new_coor[0] < self.board_width and
+                   0 <= new_coor[1] < self.board_length and
+                   self.board[new_coor[0]][new_coor[1]] is None):
+                legal_moves.append(new_coor.copy())
+                new_coor += shift
+        # slide moves with captures
+        for move in piece['piece'].get('slide_capture_moves', []):
+            new_coor = coor.copy()
+            shift = [0, 0]
+            for d in move:
+                shift += directions[d]
+            new_coor += shift
+            while (0 <= new_coor[0] < self.board_width and
+                   0 <= new_coor[1] < self.board_length):
+                if (self.board[new_coor[0]][new_coor[1]] is not None and
+                    self.board[new_coor[0]][new_coor[1]]['isWhite'] != piece['isWhite']):
+                    legal_moves.append(new_coor.copy())
+                    break 
+                new_coor += shift
         return legal_moves
-
+    
+    def PlacePiece(self, x, y, piece, isWhite):
+        piece = self.pieces[piece.lower()]
+        self.board[x][y] = {'piece': piece}
+        self.board[x][y]['isWhite'] = isWhite      
+    
     def BoardTextOutput(self):
         Board = ''
         for y in range(self.board_width):

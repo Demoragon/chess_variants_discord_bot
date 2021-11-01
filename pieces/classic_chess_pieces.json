@@ -17,12 +17,30 @@
 	{
 		"name": "queen",
 		"name_ru": "ферзь",
-		"symbol": "q"
+		"symbol": "q",
+		"slide_quite_moves":
+		[
+			"N", "S", "W", "E", 
+			"NW", "NE", "SW", "SE"
+		],
+		"slide_capture_moves":
+		[
+			"N", "S", "W", "E", 
+			"NW", "NE", "SW", "SE"
+		]
 	},
 	{
 		"name": "rook",
 		"name_ru": "ладья",
-		"symbol": "r"
+		"symbol": "r",
+		"slide_quite_moves":
+		[
+			"N", "S", "W", "E"
+		],
+		"slide_capture_moves":
+		[
+			"N", "S", "W", "E"
+		]
 	},
 	{
 		"name": "knight",
@@ -42,7 +60,15 @@
 	{
 		"name": "bishop",
 		"name_ru": "слон",
-		"symbol": "b"
+		"symbol": "b",
+		"slide_quite_moves":
+		[ 
+			"NW", "NE", "SW", "SE"
+		],
+		"slide_capture_moves":
+		[ 
+			"NW", "NE", "SW", "SE"
+		]
 	},
 	{
 		"name": "pawn",
