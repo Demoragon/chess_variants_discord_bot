@@ -4,6 +4,7 @@ import numpy as np
 
 from piece import *
 
+
 class Game:
     all_games = dict()
 
@@ -41,7 +42,10 @@ class Game:
                         self.board[x][y]['isWhite'] = True
                     else:
                         self.board[x][y]['isWhite'] = False
-        self.pieces = game['pieces']  
+        self.pieces = game['pieces']
+        self.numbers = [str(i+1) for i in range(self.board_length)]
+        self.numbers.reverse()
+        self.letters = [chr(ord('a')+i) for i in range(self.board_width)]
         
     def GetPieceMoves(self, x, y):
         legal_moves = []
@@ -96,17 +100,36 @@ class Game:
             new_coor += shift
             while (0 <= new_coor[0] < self.board_width and
                    0 <= new_coor[1] < self.board_length):
-                if (self.board[new_coor[0]][new_coor[1]] is not None and
-                    self.board[new_coor[0]][new_coor[1]]['isWhite'] != piece['isWhite']):
-                    legal_moves.append(new_coor.copy())
+                if self.board[new_coor[0]][new_coor[1]] is not None:
+                    if self.board[new_coor[0]][new_coor[1]]['isWhite'] != piece['isWhite']:
+                        legal_moves.append(new_coor.copy())
                     break 
                 new_coor += shift
+        for i in range(len(legal_moves)):
+            legal_moves[i] = list(legal_moves[i])
         return legal_moves
+    
+    def PlayerMove(self, move):
+        # TODO: check data correctness
+        x = self.letters.index(move[0])
+        y = self.numbers.index(move[1])
+        x2 = self.letters.index(move[2])
+        y2 = self.numbers.index(move[3])
+        if self.board[x][y] is None:
+            raise Exception('There is no piece on '+move[:2])
+        if [x2, y2] not in self.GetPieceMoves(x, y):
+            raise Exception('Piece on '+move[:2]+' can\'t move on'+move[2:4])
+        self.MovePiece(x, y, x2, y2)
+    
+    def MovePiece(self, x, y, x2, y2):
+        piece = self.board[x][y]
+        self.board[x][y] = None
+        self.board[x2][y2] = piece
     
     def PlacePiece(self, x, y, piece, isWhite):
         piece = self.pieces[piece.lower()]
         self.board[x][y] = {'piece': piece}
-        self.board[x][y]['isWhite'] = isWhite      
+        self.board[x][y]['isWhite'] = isWhite   
     
     def BoardTextOutput(self):
         Board = ''
