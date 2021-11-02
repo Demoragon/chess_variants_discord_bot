@@ -43,6 +43,7 @@ class Game:
                     else:
                         self.board[x][y]['isWhite'] = False
         self.pieces = game['pieces']
+        self.isWhiteTurn = True
         self.numbers = [str(i+1) for i in range(self.board_length)]
         self.numbers.reverse()
         self.letters = [chr(ord('a')+i) for i in range(self.board_width)]
@@ -117,9 +118,12 @@ class Game:
         y2 = self.numbers.index(move[3])
         if self.board[x][y] is None:
             raise Exception('There is no piece on '+move[:2])
+        if self.board[x][y]['isWhite'] != self.isWhiteTurn:
+            raise Exception('It\'s not your turn')
         if [x2, y2] not in self.GetPieceMoves(x, y):
             raise Exception('Piece on '+move[:2]+' can\'t move on'+move[2:4])
         self.MovePiece(x, y, x2, y2)
+        self.isWhiteTurn = not self.isWhiteTurn
     
     def MovePiece(self, x, y, x2, y2):
         piece = self.board[x][y]
