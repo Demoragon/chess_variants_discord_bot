@@ -1,0 +1,17 @@
+[
+	{ 
+		"name": "classic chess",
+		"name_ru": "классические шахматы",
+		"board_width": 8,
+		"board_length": 8,
+		"pieces": {
+			"k": "king",
+			"q": "queen",
+			"r": "rook",
+			"n": "knight",
+			"b": "bishop",
+			"p": "pawn"
+		},
+		"board": "rnbqkbnr/pppppppp/......../......../......../......../PPPPPPPP/RNBQKBNR"
+	}
+]

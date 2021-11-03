@@ -1,0 +1,80 @@
+[
+	{ 
+		"name": "king",
+		"name_ru": "король",
+		"symbol": "k",
+		"quite_moves": 
+		[
+			"N", "S", "W", "E", 
+			"NW", "NE", "SW", "SE"
+		],
+		"capture_moves":
+		[
+			"N", "S", "W", "E", 
+			"NW", "NE", "SW", "SE"
+		]
+	},
+	{
+		"name": "queen",
+		"name_ru": "ферзь",
+		"symbol": "q",
+		"slide_quite_moves":
+		[
+			"N", "S", "W", "E", 
+			"NW", "NE", "SW", "SE"
+		],
+		"slide_capture_moves":
+		[
+			"N", "S", "W", "E", 
+			"NW", "NE", "SW", "SE"
+		]
+	},
+	{
+		"name": "rook",
+		"name_ru": "ладья",
+		"symbol": "r",
+		"slide_quite_moves":
+		[
+			"N", "S", "W", "E"
+		],
+		"slide_capture_moves":
+		[
+			"N", "S", "W", "E"
+		]
+	},
+	{
+		"name": "knight",
+		"name_ru": "конь",
+		"symbol": "n",
+		"quite_moves": 
+		[
+			"NNW", "NNE", "SSW", "SSE",
+			"WWN", "WWS", "EEN", "EES"
+		],
+		"capture_moves":
+		[
+			"NNW", "NNE", "SSW", "SSE",
+			"WWN", "WWS", "EEN", "EES"
+		]
+	},
+	{
+		"name": "bishop",
+		"name_ru": "слон",
+		"symbol": "b",
+		"slide_quite_moves":
+		[ 
+			"NW", "NE", "SW", "SE"
+		],
+		"slide_capture_moves":
+		[ 
+			"NW", "NE", "SW", "SE"
+		]
+	},
+	{
+		"name": "pawn",
+		"name_ru": "пешка",
+		"symbol": "p",
+		"quite_moves": [ "N" ],
+		"capture_moves": [ "NW", "NE" ]
+	}
+]
