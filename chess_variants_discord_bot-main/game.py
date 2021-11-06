@@ -172,4 +172,4 @@ class Game:
         for i in range(10): 
             NewBoard += "".join(Board[i])
             NewBoard +="\n"
-        return(NewBoard) 
+        return NewBoard
