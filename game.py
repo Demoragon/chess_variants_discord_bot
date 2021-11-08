@@ -154,20 +154,17 @@ class Game:
         Board += "abcdefgh"
         return Board
       
-    def BoardWithMovesTextOutpu(self, x, y):
+    def BoardWithMovesTextOutput(self, x, y):
         Board = self.BoardTextOutput()
         variants = self.GetPieceMoves(x, y)
         Board = Board.split("\n")
         length = len(Board)
         for new in range(length):
-           Board[new] = list(Board[new]) 
+            Board[new] = list(Board[new]) 
         
-        for l in variants:
-            x = l[0]
-            y = l[1]
+        for v in variants:
+            x, y = v
             Board[y][x] = 'X'
-            print(x)
-            print(y)
         NewBoard = ""
         for i in range(10): 
             NewBoard += "".join(Board[i])
