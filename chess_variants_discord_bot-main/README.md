@@ -1,1 +1,0 @@
-# chess_variants_discord_bot
