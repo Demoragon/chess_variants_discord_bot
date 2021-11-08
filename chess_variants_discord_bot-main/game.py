@@ -166,8 +166,6 @@ class Game:
             x = l[0]
             y = l[1]
             Board[y][x] = 'X'
-            print(x)
-            print(y)
         NewBoard = ""
         for i in range(10): 
             NewBoard += "".join(Board[i])
