@@ -137,6 +137,7 @@ class Game:
     
     def BoardTextOutput(self):
         Board = ''
+        count = 8
         for y in range(self.board_width):
             for x in range(self.board_length):
                 if self.board[x][y] == None:
@@ -145,5 +146,27 @@ class Game:
                     Board += self.board[x][y]['piece']['symbol']
                 else:
                     Board += self.board[x][y]['piece']['symbol'].upper()
+            Board += "|" + str(count)
+            count -= 1
             Board += '\n'
+        Board += "---------"
+        Board += "\n"
+        Board += "abcdefgh"
         return Board
+      
+    def BoardWithMovesTextOutput(self, x, y):
+        Board = self.BoardTextOutput()
+        variants = self.GetPieceMoves(x, y)
+        Board = Board.split("\n")
+        length = len(Board)
+        for new in range(length):
+            Board[new] = list(Board[new]) 
+        
+        for v in variants:
+            x, y = v
+            Board[y][x] = 'X'
+        NewBoard = ""
+        for i in range(10): 
+            NewBoard += "".join(Board[i])
+            NewBoard +="\n"
+        return NewBoard
