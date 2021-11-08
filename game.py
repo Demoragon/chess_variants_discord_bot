@@ -153,8 +153,8 @@ class Game:
         Board += "\n"
         Board += "abcdefgh"
         return Board
+      
     def BoardWithMovesTextOutpu(self, x, y):
-        
         Board = self.BoardTextOutput()
         variants = self.GetPieceMoves(x, y)
         Board = Board.split("\n")
