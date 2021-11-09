@@ -75,6 +75,7 @@
 		"name_ru": "пешка",
 		"symbol": "p",
 		"quite_moves": [ "N" ],
-		"capture_moves": [ "NW", "NE" ]
+		"capture_moves": [ "NW", "NE" ],
+		"special_moves": [ "double_move" ]
 	}
 ]

@@ -42,6 +42,7 @@ class Game:
                         self.board[x][y]['isWhite'] = True
                     else:
                         self.board[x][y]['isWhite'] = False
+                    self.board[x][y]['MovedBefore'] = False
         self.pieces = game['pieces']
         self.isWhiteTurn = True
         self.numbers = [str(i+1) for i in range(self.board_length)]
@@ -62,7 +63,7 @@ class Game:
             for d in directions.keys():
                 directions[d] = -1*directions[d]
         # quite moves
-        for move in piece['piece'].get('quite_moves', []):
+        for move in piece['piece']['quite_moves']:
             new_coor = coor.copy()
             for d in move:
                 new_coor += directions[d]
@@ -71,7 +72,7 @@ class Game:
                 self.board[new_coor[0]][new_coor[1]] is None):
                 legal_moves.append(new_coor)
         # moves with capture
-        for move in piece['piece'].get('capture_moves', []):
+        for move in piece['piece']['capture_moves']:
             new_coor = coor.copy()
             for d in move:
                 new_coor += directions[d]
@@ -81,7 +82,7 @@ class Game:
                 self.board[new_coor[0]][new_coor[1]]['isWhite'] != piece['isWhite']):
                 legal_moves.append(new_coor)
         # slide quite moves
-        for move in piece['piece'].get('slide_quite_moves', []):
+        for move in piece['piece']['slide_quite_moves']:
             new_coor = coor.copy()
             shift = [0, 0]
             for d in move:
@@ -93,7 +94,7 @@ class Game:
                 legal_moves.append(new_coor.copy())
                 new_coor += shift
         # slide moves with captures
-        for move in piece['piece'].get('slide_capture_moves', []):
+        for move in piece['piece']['slide_capture_moves']:
             new_coor = coor.copy()
             shift = [0, 0]
             for d in move:
@@ -106,6 +107,13 @@ class Game:
                         legal_moves.append(new_coor.copy())
                     break 
                 new_coor += shift
+        # special moves
+        if 'double_move' in piece['piece']['special_moves'] and not piece['MovedBefore']:
+            # Make double_move more universal
+            x2, y2 = directions['N']
+            if self.board[x+x2][y+y2] is None and self.board[x+x2*2][y+y2*2] is None:
+                legal_moves.append(np.array([x+x2*2, y+y2*2]))
+                
         for i in range(len(legal_moves)):
             legal_moves[i] = list(legal_moves[i])
         return legal_moves
@@ -124,6 +132,7 @@ class Game:
             raise Exception('Piece on '+move[:2]+' can\'t move on'+move[2:4])
         self.MovePiece(x, y, x2, y2)
         self.isWhiteTurn = not self.isWhiteTurn
+        self.board[x2][y2]['MovedBefore'] = True
     
     def MovePiece(self, x, y, x2, y2):
         piece = self.board[x][y]
