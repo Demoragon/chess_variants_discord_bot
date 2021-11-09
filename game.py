@@ -129,7 +129,8 @@ class Game:
         if self.board[x][y]['isWhite'] != self.isWhiteTurn:
             raise Exception('It\'s not your turn')
         if [x2, y2] not in self.GetPieceMoves(x, y):
-            raise Exception('Piece on '+move[:2]+' can\'t move on'+move[2:4])
+            raise Exception(self.board[x][y]['piece']['name']+
+                            ' on '+move[:2]+' can\'t move on '+move[2:4])
         self.MovePiece(x, y, x2, y2)
         self.isWhiteTurn = not self.isWhiteTurn
         self.board[x2][y2]['MovedBefore'] = True

@@ -21,6 +21,9 @@ print(a.BoardWithMovesTextOutput(0, 6))
 
 test_game = Game('classic chess')
 while True:
-    print(test_game.BoardTextOutput())
-    test_game.PlayerMove(input())
+    try:
+        print(test_game.BoardTextOutput())
+        test_game.PlayerMove(input())
+    except Exception as e:
+        print(e)
     
