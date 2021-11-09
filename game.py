@@ -45,12 +45,14 @@ class Game:
                     self.board[x][y]['MovedBefore'] = False
         self.pieces = game['pieces']
         self.isWhiteTurn = True
+        self.en_passant = None
         self.numbers = [str(i+1) for i in range(self.board_length)]
         self.numbers.reverse()
         self.letters = [chr(ord('a')+i) for i in range(self.board_width)]
         
     def GetPieceMoves(self, x, y):
         legal_moves = []
+        moves_info = dict()
         piece = self.board[x][y]
         if piece == None:
             return legal_moves
@@ -112,11 +114,23 @@ class Game:
             # Make double_move more universal
             x2, y2 = directions['N']
             if self.board[x+x2][y+y2] is None and self.board[x+x2*2][y+y2*2] is None:
-                legal_moves.append(np.array([x+x2*2, y+y2*2]))
-                
+                new_move = [x+x2*2, y+y2*2]
+                legal_moves.append(new_move)
+                moves_info[str(new_move)] = "pawn_double_move"
+        if 'en_passant' in piece['piece']['special_moves']:
+            for move in piece['piece']['capture_moves']:
+                new_coor = coor.copy()
+                x2, y2 = directions['S']
+                for d in move:
+                    new_coor += directions[d]
+                if (0 <= new_coor[0] < self.board_width and
+                    0 <= new_coor[1] < self.board_length and
+                    self.en_passant == [new_coor[0]+x2,new_coor[1]+y2]):
+                    legal_moves.append(new_coor)
+                    moves_info[str(list(new_coor))] = 'en_passant'
         for i in range(len(legal_moves)):
             legal_moves[i] = list(legal_moves[i])
-        return legal_moves
+        return legal_moves, moves_info
     
     def PlayerMove(self, move):
         # TODO: check data correctness
@@ -128,10 +142,19 @@ class Game:
             raise Exception('There is no piece on '+move[:2])
         if self.board[x][y]['isWhite'] != self.isWhiteTurn:
             raise Exception('It\'s not your turn')
-        if [x2, y2] not in self.GetPieceMoves(x, y):
+        legal_moves, moves_info = self.GetPieceMoves(x, y)
+        if [x2, y2] not in legal_moves:
             raise Exception(self.board[x][y]['piece']['name']+
                             ' on '+move[:2]+' can\'t move on '+move[2:4])
         self.MovePiece(x, y, x2, y2)
+        if moves_info.get(str([x2, y2]), None) == "en_passant":
+            x3, y3 = self.en_passant
+            self.board[x3][y3] = None
+        if moves_info.get(str([x2, y2]), None) == "pawn_double_move":
+            self.en_passant = [x2, y2]
+        else:
+            self.en_passant = None
+        
         self.isWhiteTurn = not self.isWhiteTurn
         self.board[x2][y2]['MovedBefore'] = True
     
@@ -166,7 +189,7 @@ class Game:
       
     def BoardWithMovesTextOutput(self, x, y):
         Board = self.BoardTextOutput()
-        variants = self.GetPieceMoves(x, y)
+        variants, _ = self.GetPieceMoves(x, y)
         Board = Board.split("\n")
         length = len(Board)
         for new in range(length):
