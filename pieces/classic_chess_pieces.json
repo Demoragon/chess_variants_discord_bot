@@ -77,6 +77,7 @@
 		"symbol": "p",
 		"quite_moves": [ "N" ],
 		"capture_moves": [ "NW", "NE" ],
-		"special_moves": [ "double_move", "en_passant" ]
+		"special_moves": [ "double_move", "en_passant" ],
+		"flags": [ "pawn" ]
 	}
 ]

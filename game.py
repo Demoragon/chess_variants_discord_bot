@@ -112,6 +112,7 @@ class Game:
                 new_coor += shift
         # special moves
         # double move
+        print(piece)
         if 'double_move' in piece['piece']['special_moves'] and not piece['MovedBefore']:
             # Make double_move more universal
             x2, y2 = directions['N']
@@ -167,7 +168,13 @@ class Game:
         if moves_info.get(str([x2, y2]), None) == "long_castling":
             self.MovePiece(0, y, x2+1, y2)
         if moves_info.get(str([x2, y2]), None) == "short_castling":
-            self.MovePiece(self.board_width-1, y, x2-1, y2)        
+            # TODO: list of pieces which this one can transform into
+            # TODO: check correctness of data connected with transformation
+            self.MovePiece(self.board_width-1, y, x2-1, y2)
+        if ('pawn' in self.board[x2][y2]['piece']['flags'] and
+            ((self.board[x2][y2]['isWhite'] and y2 == 0) or
+             (not self.board[x2][y2]['isWhite'] and y2 == self.board_length-1))):
+            self.board[x2][y2]['piece'] = self.pieces[move[4].lower()]
         if moves_info.get(str([x2, y2]), None) == "pawn_double_move":
             self.en_passant = [x2, y2]
         else:
@@ -184,7 +191,8 @@ class Game:
     def PlacePiece(self, x, y, piece, isWhite):
         piece = self.pieces[piece.lower()]
         self.board[x][y] = {'piece': piece}
-        self.board[x][y]['isWhite'] = isWhite   
+        self.board[x][y]['isWhite'] = isWhite
+        self.board[x][y]['MovedBefore'] = False
     
     def BoardTextOutput(self):
         Board = ''
