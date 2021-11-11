@@ -44,6 +44,7 @@ class Game:
                         self.board[x][y]['isWhite'] = False
                     self.board[x][y]['MovedBefore'] = False
         self.pieces = game['pieces']
+        self.game_flags = game['flags']
         self.isWhiteTurn = True
         self.en_passant = None
         self.numbers = [str(i+1) for i in range(self.board_length)]
@@ -110,6 +111,7 @@ class Game:
                     break 
                 new_coor += shift
         # special moves
+        # double move
         if 'double_move' in piece['piece']['special_moves'] and not piece['MovedBefore']:
             # Make double_move more universal
             x2, y2 = directions['N']
@@ -117,6 +119,7 @@ class Game:
                 new_move = [x+x2*2, y+y2*2]
                 legal_moves.append(new_move)
                 moves_info[str(new_move)] = "pawn_double_move"
+        # en passant
         if 'en_passant' in piece['piece']['special_moves']:
             for move in piece['piece']['capture_moves']:
                 new_coor = coor.copy()
@@ -128,6 +131,17 @@ class Game:
                     self.en_passant == [new_coor[0]+x2,new_coor[1]+y2]):
                     legal_moves.append(new_coor)
                     moves_info[str(list(new_coor))] = 'en_passant'
+        # castling
+        if ('castling' in self.game_flags and 
+            'king' in piece['piece']['flags'] and not piece['MovedBefore']):
+            # TODO: check if castling is actually legal
+            if self.board[0][y] is not None and not self.board[0][y]['MovedBefore']:
+                legal_moves.append([x-2, y])
+                moves_info[str([x-2, y])] = 'long_castling'
+            if (self.board[self.board_width-1][y] is not None and 
+                not self.board[self.board_width-1][y]['MovedBefore']):
+                legal_moves.append([x+2, y])
+                moves_info[str([x+2, y])] = 'short_castling'            
         for i in range(len(legal_moves)):
             legal_moves[i] = list(legal_moves[i])
         return legal_moves, moves_info
@@ -150,6 +164,10 @@ class Game:
         if moves_info.get(str([x2, y2]), None) == "en_passant":
             x3, y3 = self.en_passant
             self.board[x3][y3] = None
+        if moves_info.get(str([x2, y2]), None) == "long_castling":
+            self.MovePiece(0, y, x2+1, y2)
+        if moves_info.get(str([x2, y2]), None) == "short_castling":
+            self.MovePiece(self.board_width-1, y, x2-1, y2)        
         if moves_info.get(str([x2, y2]), None) == "pawn_double_move":
             self.en_passant = [x2, y2]
         else:

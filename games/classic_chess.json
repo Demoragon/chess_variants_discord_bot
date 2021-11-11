@@ -12,6 +12,7 @@
 			"b": "bishop",
 			"p": "pawn"
 		},
-		"board": "rnbqkbnr/pppppppp/......../......../......../......../PPPPPPPP/RNBQKBNR"
+		"board": "rnbqkbnr/pppppppp/......../......../......../......../PPPPPPPP/RNBQKBNR",
+		"flags": [ "castling" ]
 	}
 ]

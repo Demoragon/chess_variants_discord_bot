@@ -12,7 +12,8 @@
 		[
 			"N", "S", "W", "E", 
 			"NW", "NE", "SW", "SE"
-		]
+		],
+		"flags": [ "king" ]
 	},
 	{
 		"name": "queen",
