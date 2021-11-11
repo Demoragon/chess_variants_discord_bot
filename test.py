@@ -17,13 +17,13 @@ print(a.numbers)
 
 a.PlayerMove('b1a3')
 print(a.BoardTextOutput())
-print(a.BoardWithMovesTextOutput(0, 6))
+print(a.BoardWithMovesTextOutput(4, 7))
 
 test_game = Game('classic chess')
 while True:
     try:
         print(test_game.BoardTextOutput())
         test_game.PlayerMove(input())
-    except Exception as e:
+    except ValueError as e:
         print(e)
     

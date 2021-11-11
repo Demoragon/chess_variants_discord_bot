@@ -154,12 +154,12 @@ class Game:
         x2 = self.letters.index(move[2])
         y2 = self.numbers.index(move[3])
         if self.board[x][y] is None:
-            raise Exception('There is no piece on '+move[:2])
+            raise ValueError('There is no piece on '+move[:2])
         if self.board[x][y]['isWhite'] != self.isWhiteTurn:
-            raise Exception('It\'s not your turn')
+            raise ValueError('It\'s not your turn')
         legal_moves, moves_info = self.GetPieceMoves(x, y)
         if [x2, y2] not in legal_moves:
-            raise Exception(self.board[x][y]['piece']['name']+
+            raise ValueError(self.board[x][y]['piece']['name']+
                             ' on '+move[:2]+' can\'t move on '+move[2:4])
         self.MovePiece(x, y, x2, y2)
         if moves_info.get(str([x2, y2]), None) == "en_passant":
